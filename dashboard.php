@@ -1,5 +1,6 @@
+<?php error_reporting (E_ALL ^ E_NOTICE); ?>
 <?php
-require_once'php/core/init.php';
+require_once 'php/core/init.php';
 $user = new User();
 $override = new OverideData();
 $email = new Email();
@@ -17,7 +18,7 @@ if($user->isLoggedIn()) {
 <html lang="en">
 
 <head>
-    <title> Dashboard - MRC Porto </title>
+    <title> Dashboard - IHI - FILE LOGS </title>
     <?php include "head.php";?>
 </head>
 <body>

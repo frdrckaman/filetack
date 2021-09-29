@@ -1,3 +1,4 @@
+<?php error_reporting (E_ALL ^ E_NOTICE); ?>
 <ul class="buttons">
     <li>
         <a href="#" class="link_bcPopupList"><span class="glyphicon glyphicon-user"></span><span class="text">Users list</span></a>

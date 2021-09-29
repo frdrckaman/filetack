@@ -1,3 +1,4 @@
+<?php error_reporting (E_ALL ^ E_NOTICE); ?>
 <?php
 if(Input::exists('post')){
     if(Input::get('change_password')){
@@ -39,7 +40,7 @@ if(Input::exists('post')){
 }
 ?>
 <div class="header">
-    <h4 style="font-weight: bold;color: #f8f8f8" href="#"> &nbsp;MRC Porto </h4>
+    <h4 style="font-weight: bold;color: #f8f8f8" href="#"> &nbsp;IHI - FILE LOGS </h4>
     <ul class="header_menu">
         <li class="list_icon"><a href="#">&nbsp;</a></li>
         <li class="settings_icon">

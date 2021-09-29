@@ -1,12 +1,13 @@
+<?php error_reporting (E_ALL ^ E_NOTICE); ?>
 <?php
 session_start();
 
 $GLOBALS['config'] = array(
   'mysql' => array(
       'host' => 'localhost',
-      'username' => '',
-      'password' => '',
-      'db' => 'filetrack'
+      'username' => 'root',
+      'password' => 'Data@2020',
+      'db' => 'filelogs'
   	),
   'remember' =>array(
       'cookie_name' => 'hash',

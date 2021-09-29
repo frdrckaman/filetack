@@ -1,3 +1,4 @@
+<?php error_reporting (E_ALL ^ E_NOTICE); ?>
 <?php
 class Input{
     public static function exists($type = 'post'){

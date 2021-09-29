@@ -1,3 +1,4 @@
+<?php error_reporting (E_ALL ^ E_NOTICE); ?>
 <?php
 require_once 'php/core/init.php';
 $user = new User();
@@ -78,7 +79,7 @@ if(!$user->isLoggedIn()) {
 <html lang="en">
 
 <head>
-    <title>Login - MRC Porto</title>
+    <title>Login - IHI - FILE LOGS</title>
     <?php include 'head.php'?>
 </head>
 <body>
