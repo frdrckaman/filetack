@@ -36,7 +36,7 @@ if($user->data()->accessLevel == 1){
         </li>
         <?php if($user->data()->accessLevel == 1){?>
             <li class="openable">
-                <a href="#"><span class="isw-users"></span><span class="text">Staff</span></a>
+                <a href="#"><span class="isw-user"></span><span class="text">Staff</span></a>
                 <ul>
                     <li>
                         <a href="add.php?id=1">
@@ -46,6 +46,21 @@ if($user->data()->accessLevel == 1){
                     <li>
                         <a href="info.php?id=1">
                             <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Manage staff</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="openable">
+                <a href="#"><span class="isw-users"></span><span class="text">Clients</span></a>
+                <ul>
+                    <li>
+                        <a href="add.php?id=1">
+                            <span class="glyphicon glyphicon-user"></span><span class="text">Add Client</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="info.php?id=1">
+                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Manage Clients</span>
                         </a>
                     </li>
                 </ul>
@@ -74,6 +89,11 @@ if($user->data()->accessLevel == 1){
                     <li>
                         <a href="add.php?id=4">
                             <span class="glyphicon glyphicon-plus"></span><span class="text">Add Study File</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="add.php?id=8">
+                            <span class="glyphicon glyphicon-plus"></span><span class="text">Request File</span>
                         </a>
                     </li>
                     <li>
