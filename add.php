@@ -217,6 +217,65 @@ if($user->isLoggedIn()) {
                 $pageError = $validate->errors();
             }
         }
+        elseif (Input::get('add_client')) {
+            $validate = new validate();
+            $validate = $validate->check($_POST, array(
+                'file_id' => array(
+                    'required' => true,
+                    'unique' => 'clients',
+                ),
+                'study_id' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $user->createRecord('clients', array(
+                        'study_id' => Input::get('study_id'),
+                        'file_id' => Input::get('file_id'),
+                        'create_on' => date('Y-m-d'),
+                        'status' => 1,
+                        'staff_id'=>$user->data()->id
+                    ));
+
+                    $successMessage = 'Client Added Successful' ;
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        }
+        elseif (Input::get('add_request')) {
+            $validate = new validate();
+            $validate = $validate->check($_POST, array(
+                'file_id' => array(
+                    'required' => true,
+                ),
+                'study_id' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $user->createRecord('file_request', array(
+                        'study_id' => Input::get('study_id'),
+                        'file_id' => Input::get('file_id'),
+                        'create_on' => date('Y-m-d'),
+                        'return_on' => '',
+                        'approved_on' => '',
+                        'status' => 0,
+                        'staff_id'=>$user->data()->id
+                    ));
+
+                    $successMessage = 'Request Sent Successful' ;
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        }
     }
 }else{
     Redirect::to('index.php');
@@ -226,7 +285,7 @@ if($user->isLoggedIn()) {
 <html lang="en">
 
 <head>
-    <title> Add - MRC Porto </title>
+    <title> Add - FileTrack </title>
     <?php include "head.php";?>
 </head>
 <body>
@@ -532,6 +591,78 @@ if($user->isLoggedIn()) {
                         </div>
 
                     </div>
+                <?php }elseif ($_GET['id'] == 7){?>
+                    <div class="col-md-offset-1 col-md-8">
+                        <div class="head clearfix">
+                            <div class="isw-ok"></div>
+                            <h1>Add File</h1>
+                        </div>
+                        <div class="block-fluid">
+                            <form id="validation" method="post" >
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">File Name: </div>
+                                    <div class="col-md-9">
+                                        <input value="" class="validate[required]" type="text" name="file_id" id="file_id" required/>
+                                    </div>
+                                </div>
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Study</div>
+                                    <div class="col-md-9">
+                                        <select name="study_id" style="width: 100%;" required>
+                                            <option value="">Select Study</option>
+                                            <?php foreach ($override->getData('study') as $study){?>
+                                                <option value="<?=$study['id']?>"><?=$study['name']?></option>
+                                            <?php }?>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="footer tar">
+                                    <input type="submit" name="add_client" value="Submit" class="btn btn-default">
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
+                <?php }elseif ($_GET['id'] == 8){?>
+                    <div class="col-md-offset-1 col-md-8">
+                        <div class="head clearfix">
+                            <div class="isw-ok"></div>
+                            <h1>Request File</h1>
+                        </div>
+                        <div class="block-fluid">
+                            <form id="validation" method="post" >
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Study</div>
+                                    <div class="col-md-9">
+                                        <select name="study_id" id="study_id" style="width: 100%;" required>
+                                            <option value="">Select Study</option>
+                                            <?php foreach ($override->getData('study') as $study){?>
+                                                <option value="<?=$study['id']?>"><?=$study['name']?></option>
+                                            <?php }?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <span><img src="img/loaders/loader.gif" id="fl_wait" title="loader.gif"/></span>
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">File ID</div>
+                                    <div class="col-md-9">
+                                        <select name="file_id" id="file_id" style="width: 100%;" required>
+                                            <option value="">Select File</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="footer tar">
+                                    <input type="submit" name="add_request" value="Submit" class="btn btn-default">
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
                 <?php }?>
                 <div class="dr"><span></span></div>
             </div>
@@ -552,6 +683,7 @@ if($user->isLoggedIn()) {
         window.history.replaceState( null, null, window.location.href );
     }
     $(document).ready(function(){
+        $('#fl_wait').hide();
         $('#wait_ds').hide();
         $('#region').change(function(){
             var getUid = $(this).val();
@@ -592,6 +724,20 @@ if($user->isLoggedIn()) {
                 success:function(data){
                     $('#cus_acc').html(data);
                     $('#wait').hide();
+                }
+            });
+
+        });
+        $('#study_id').change(function(){
+            var getUid = $(this).val();
+            $('#fl_wait').show();
+            $.ajax({
+                url:"process.php?cnt=study",
+                method:"GET",
+                data:{getUid:getUid},
+                success:function(data){
+                    $('#file_id').html(data);
+                    $('#fl_wait').hide();
                 }
             });
 

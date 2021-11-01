@@ -50,7 +50,7 @@ if($user->isLoggedIn()) {
 <html lang="en">
 
 <head>
-    <title>Profile - MRC Porto</title>
+    <title> Profile - FileTrack </title>
     <?php include "head.php";?>
 </head>
 <body>
@@ -62,7 +62,7 @@ if($user->isLoggedIn()) {
             <ul class="breadcrumb">
                 <li><a href="#">Simple Admin</a> <span class="divider">></span></li>
                 <li><a href="#">User info</a> <span class="divider">></span></li>
-                <li class="active">MRC Porto</li>
+                <li class="active">FileTrack</li>
             </ul>
             <?php include 'pageInfo.php'?>
         </div>
@@ -70,7 +70,7 @@ if($user->isLoggedIn()) {
         <div class="workplace">
 
             <div class="page-header">
-                <h1>User info <small>MRC Porto</small></h1>
+                <h1>User info <small>FileTrack</small></h1>
             </div>
             <div class="row">
                 <div class="col-md-6">
