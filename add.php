@@ -201,12 +201,18 @@ if($user->isLoggedIn()) {
             ));
             if ($validate->passed()) {
                 try {
-                    $user->createRecord('study_files_rec', array(
-                        'file_id' => Input::get('name'),
+                    $f_req=$override->get3('file_request','staff_id',Input::get('staff'),'file_id',Input::get('name'),'status', 2)[0];
+//                    print_r($f_req);
+                    $user->updateRecord('file_request', array(
                         'return_on' => date('Y-m-d'),
-                        'staff_id' => Input::get('staff'),
-                        'admin_id' => $user->data()->id,
-                    ));
+                        'status' => 1,
+                    ),$f_req['id']);
+////                    $user->createRecord('study_files_rec', array(
+////                        'file_id' => Input::get('name'),
+////                        'return_on' => date('Y-m-d'),
+////                        'staff_id' => Input::get('staff'),
+////                        'admin_id' => $user->data()->id,
+////                    ));
                     $user->updateRecord('study_files',array('status'=>0),Input::get('name'));
                     $successMessage = 'Study Files Successful Assigned';
 
@@ -258,17 +264,26 @@ if($user->isLoggedIn()) {
             ));
             if ($validate->passed()) {
                 try {
-                    $user->createRecord('file_request', array(
-                        'study_id' => Input::get('study_id'),
-                        'file_id' => Input::get('file_id'),
-                        'create_on' => date('Y-m-d'),
-                        'return_on' => '',
-                        'approved_on' => '',
-                        'status' => 0,
-                        'staff_id'=>$user->data()->id
-                    ));
+                    if(!$override->get3('file_request','file_id',Input::get('file_id'),'status',0, 'staff_id', $user->data()->id)){
+                        $user->createRecord('file_request', array(
+                            'study_id' => Input::get('study_id'),
+                            'file_id' => Input::get('file_id'),
+                            'create_on' => date('Y-m-d'),
+                            'return_on' => '',
+                            'approved_on' => '',
+                            'status' => 0,
+                            'staff_id'=>$user->data()->id
+                        ));
+//                        $user->createRecord('study_files_rec', array(
+//                            'file_id' => Input::get('file_id'),
+//                            'create_on' => date('Y-m-d'),
+//                            'staff_id' => $user->data()->id,
+//                        ));
 
-                    $successMessage = 'Request Sent Successful' ;
+                        $successMessage = 'Request Sent Successful' ;
+                    }else{
+                        $errorMessage='You have already submitted this request, Please wait for its approval';
+                    }
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }

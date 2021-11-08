@@ -17,8 +17,8 @@ if($_GET['cnt'] == 'region'){
 <?php }}elseif ($_GET['cnt'] == 'download'){ $user->exportData('citizen', 'citizen_data');?>
 
 <?php }elseif ($_GET['cnt'] == 'study'){
-    $sts=$override->get('clients','study_id',$_GET['getUid'])?>
+    $sts=$override->get('study_files','study_id',$_GET['getUid'])?>
     <option value="">Select File</option>
     <?php foreach ($sts as $st){?>
-        <option value="<?=$st['id']?>"><?=$st['file_id']?></option>
+        <option value="<?=$st['id']?>"><?=$st['name']?></option>
 <?php }}?>

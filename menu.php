@@ -96,11 +96,11 @@ if($user->data()->accessLevel == 1){
                             <span class="glyphicon glyphicon-plus"></span><span class="text">Request File</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="add.php?id=5">
-                            <span class="glyphicon glyphicon-user"></span><span class="text">Assign Files</span>
-                        </a>
-                    </li>
+<!--                    <li>-->
+<!--                        <a href="add.php?id=5">-->
+<!--                            <span class="glyphicon glyphicon-user"></span><span class="text">Assign Files</span>-->
+<!--                        </a>-->
+<!--                    </li>-->
                     <li>
                         <a href="add.php?id=6">
                             <span class="glyphicon glyphicon-user"></span><span class="text">Return Files</span>
