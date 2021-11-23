@@ -667,23 +667,34 @@ if($user->isLoggedIn()) {
                             <table cellpadding="0" cellspacing="0" width="100%" class="table">
                                 <thead>
                                 <tr>
-                                    <th width="20%">Staff</th>
-                                    <th width="15%">File</th>
-                                    <th width="15%">Request Date</th>
-                                    <th width="15%">Approved Date</th>
-                                    <th width="15%">Returned Date</th>
+                                    <th width="10%">Requested Staff</th>
+                                    <th width="10%">File</th>
+                                    <th width="10%">No Days</th>
+                                    <th width="10%">Request Date</th>
+                                    <th width="10%">Approved Date</th>
+                                    <th width="10%">Approved Staff</th>
+                                    <th width="10%">Returned Date</th>
+                                    <th width="10%">Returned Staff</th>
+                                    <th width="10%">Received Staff</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <?php foreach ($override->get('file_request','file_id',$_GET['sid']) as $files){
                                     $study=$override->get('study_files','id',$files['file_id'])[0];
-                                    $staff=$override->get('user','id',$files['staff_id'])[0];?>
+                                    $staff=$override->get('user','id',$files['staff_id'])[0];
+                                    $approve=$override->get('user','id',$files['approve_staff'])[0];
+                                    $return=$override->get('user','id',$files['return_staff'])[0];
+                                    $receive=$override->get('user','id',$files['received_staff'])[0];?>
                                     <tr>
                                         <td> <?=$staff['firstname'].''.$staff['lastname']?></td>
                                         <td><?=$study['name']?></td>
+                                        <td><?=$user->dateDiff($files['approved_on'],$files['return_on'])?></td>
                                         <td><?=$files['create_on']?></td>
                                         <td><?=$files['approved_on']?></td>
+                                        <td><?=$approve['firstname'].' '.$approve['lastname']?></td>
                                         <td><?=$files['return_on']?></td>
+                                        <td><?=$return['firstname'].' '.$return['lastname']?></td>
+                                        <td><?=$receive['firstname'].' '.$receive['lastname']?></td>
 
                                     </tr>
                                     <div class="modal fade" id="user<?=$files['id']?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

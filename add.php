@@ -201,10 +201,12 @@ if($user->isLoggedIn()) {
             ));
             if ($validate->passed()) {
                 try {
-                    $f_req=$override->get3('file_request','staff_id',Input::get('staff'),'file_id',Input::get('name'),'status', 2)[0];
+                    $f_req=$override->getNews('file_request','file_id',Input::get('name'),'status', 2)[0];
 //                    print_r($f_req);
                     $user->updateRecord('file_request', array(
-                        'return_on' => date('Y-m-d'),
+                        'return_on' => date('Y-m-d H:i:s'),
+                        'return_staff'=> Input::get('staff'),
+                        'received_staff'=> $user->data()->id,
                         'status' => 1,
                     ),$f_req['id']);
 ////                    $user->createRecord('study_files_rec', array(
@@ -214,7 +216,7 @@ if($user->isLoggedIn()) {
 ////                        'admin_id' => $user->data()->id,
 ////                    ));
                     $user->updateRecord('study_files',array('status'=>0),Input::get('name'));
-                    $successMessage = 'Study Files Successful Assigned';
+                    $successMessage = 'Study Files Successful Returned';
 
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -268,7 +270,7 @@ if($user->isLoggedIn()) {
                         $user->createRecord('file_request', array(
                             'study_id' => Input::get('study_id'),
                             'file_id' => Input::get('file_id'),
-                            'create_on' => date('Y-m-d'),
+                            'create_on' => date('Y-m-d H:i:s'),
                             'return_on' => '',
                             'approved_on' => '',
                             'status' => 0,

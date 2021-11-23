@@ -44,6 +44,11 @@ class User {
         return ceil((mb_strlen($message))/160) * $noUser;
     }
 
+    function dateDiff($startDate,$endDate){
+        $date = strtotime($endDate) - strtotime($startDate);
+        return number_format($date/86400);
+    }
+
     public function getOS() {
 
         global $user_agent;

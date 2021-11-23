@@ -12,7 +12,7 @@ if($user->isLoggedIn()) {
         if(Input::get('edit_file_status')){
             if(Input::get('status')==1){$st=0;}else{$st=2;}
             try {
-                $user->updateRecord('file_request', array('status' => $st,'approved_on'=>date('Y-m-d')), Input::get('request_id'));
+                $user->updateRecord('file_request', array('status' => $st,'approved_on'=>date('Y-m-d H:i:s'),'approve_staff'=>$user->data()->id), Input::get('request_id'));
                 $user->updateRecord('study_files',array('status'=>1),Input::get('id'));
             } catch (Exception $e) {
                 $e->getMessage();
