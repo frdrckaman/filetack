@@ -257,34 +257,33 @@ if($user->isLoggedIn()) {
         elseif (Input::get('add_request')) {
             $validate = new validate();
             $validate = $validate->check($_POST, array(
-                'file_id' => array(
-                    'required' => true,
-                ),
                 'study_id' => array(
                     'required' => true,
                 ),
             ));
             if ($validate->passed()) {
                 try {
-                    if(!$override->get3('file_request','file_id',Input::get('file_id'),'status',0, 'staff_id', $user->data()->id)){
-                        $user->createRecord('file_request', array(
-                            'study_id' => Input::get('study_id'),
-                            'file_id' => Input::get('file_id'),
-                            'create_on' => date('Y-m-d H:i:s'),
-                            'return_on' => '',
-                            'approved_on' => '',
-                            'status' => 0,
-                            'staff_id'=>$user->data()->id
-                        ));
+                    foreach (Input::get('file_id') as $fid){
+                        if(!$override->get3('file_request','file_id',$fid,'status',0, 'staff_id', $user->data()->id)){
+                            $user->createRecord('file_request', array(
+                                'study_id' => Input::get('study_id'),
+                                'file_id' => $fid,
+                                'create_on' => date('Y-m-d H:i:s'),
+                                'return_on' => '',
+                                'approved_on' => '',
+                                'status' => 0,
+                                'staff_id'=>$user->data()->id
+                            ));
 //                        $user->createRecord('study_files_rec', array(
 //                            'file_id' => Input::get('file_id'),
 //                            'create_on' => date('Y-m-d'),
 //                            'staff_id' => $user->data()->id,
 //                        ));
 
-                        $successMessage = 'Request Sent Successful' ;
-                    }else{
-                        $errorMessage='You have already submitted this request, Please wait for its approval';
+                            $successMessage = 'Request Sent Successful' ;
+                        }else{
+                            $errorMessage='You have already submitted this request, Please wait for its approval';
+                        }
                     }
                 } catch (Exception $e) {
                     die($e->getMessage());
@@ -666,7 +665,7 @@ if($user->isLoggedIn()) {
                                 <div class="row-form clearfix">
                                     <div class="col-md-3">File ID</div>
                                     <div class="col-md-9">
-                                        <select name="file_id" id="file_id" style="width: 100%;" required>
+                                        <select name="file_id[]" id="s2_2" style="width: 100%;" multiple="multiple" required>
                                             <option value="">Select File</option>
                                         </select>
                                     </div>
@@ -753,7 +752,7 @@ if($user->isLoggedIn()) {
                 method:"GET",
                 data:{getUid:getUid},
                 success:function(data){
-                    $('#file_id').html(data);
+                    $('#s2_2').html(data);
                     $('#fl_wait').hide();
                 }
             });
