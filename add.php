@@ -202,19 +202,12 @@ if($user->isLoggedIn()) {
             if ($validate->passed()) {
                 try {
                     $f_req=$override->getNews('file_request','file_id',Input::get('name'),'status', 2)[0];
-//                    print_r($f_req);
                     $user->updateRecord('file_request', array(
                         'return_on' => date('Y-m-d H:i:s'),
                         'return_staff'=> Input::get('staff'),
                         'received_staff'=> $user->data()->id,
                         'status' => 1,
                     ),$f_req['id']);
-////                    $user->createRecord('study_files_rec', array(
-////                        'file_id' => Input::get('name'),
-////                        'return_on' => date('Y-m-d'),
-////                        'staff_id' => Input::get('staff'),
-////                        'admin_id' => $user->data()->id,
-////                    ));
                     $user->updateRecord('study_files',array('status'=>0),Input::get('name'));
                     $successMessage = 'Study Files Successful Returned';
 
@@ -274,11 +267,6 @@ if($user->isLoggedIn()) {
                                 'status' => 0,
                                 'staff_id'=>$user->data()->id
                             ));
-//                        $user->createRecord('study_files_rec', array(
-//                            'file_id' => Input::get('file_id'),
-//                            'create_on' => date('Y-m-d'),
-//                            'staff_id' => $user->data()->id,
-//                        ));
 
                             $successMessage = 'Request Sent Successful' ;
                         }else{
