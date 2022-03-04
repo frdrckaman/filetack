@@ -681,7 +681,7 @@ if($user->isLoggedIn()) {
                                 <tbody>
                                 <?php foreach ($override->get('file_request','file_id',$_GET['sid']) as $files){
                                     $study=$override->get('study_files','id',$files['file_id'])[0];
-                                    $staff=$override->get('user','id',$files['staff_id'])[0];
+                                    $staff=$override->get('user','id',$files['requesting_staff_id'])[0];
                                     $approve=$override->get('user','id',$files['approve_staff'])[0];
                                     $return=$override->get('user','id',$files['return_staff'])[0];
                                     $receive=$override->get('user','id',$files['received_staff'])[0];?>

@@ -258,6 +258,7 @@ if($user->isLoggedIn()) {
                 try {
                     foreach (Input::get('file_id') as $fid){
                         if(!$override->get3('file_request','file_id',$fid,'status',0, 'staff_id', $user->data()->id)){
+                            if(Input::get('staff_id') != 0){$staff=Input::get('staff_id');}else{$staff=$user->data()->id;}
                             $user->createRecord('file_request', array(
                                 'study_id' => Input::get('study_id'),
                                 'file_id' => $fid,
@@ -265,6 +266,7 @@ if($user->isLoggedIn()) {
                                 'return_on' => '',
                                 'approved_on' => '',
                                 'status' => 0,
+                                'requesting_staff_id' => $staff,
                                 'staff_id'=>$user->data()->id
                             ));
 
@@ -655,6 +657,18 @@ if($user->isLoggedIn()) {
                                     <div class="col-md-9">
                                         <select name="file_id[]" id="s2_2" style="width: 100%;" multiple="multiple" required>
                                             <option value="">Select File</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row-form clearfix">
+                                    <div class="col-md-3">Staff</div>
+                                    <div class="col-md-9">
+                                        <select name="staff_id" style="width: 100%;" required>
+                                            <option value="0">None</option>
+                                            <?php foreach ($override->getData('user') as $staff){?>
+                                                <option value="<?=$staff['id']?>"><?=$staff['firstname'].' '.$staff['lastname']?></option>
+                                            <?php }?>
                                         </select>
                                     </div>
                                 </div>

@@ -151,7 +151,7 @@ if($user->isLoggedIn()) {
                             <tbody>
                             <?php foreach ($override->get('file_request','status',0) as $fileRequest){
                                 $file=$override->get('study_files','id',$fileRequest['file_id'])[0];
-                                $staff=$override->get('user','id',$fileRequest['staff_id'])[0];
+                                $staff=$override->get('user','id',$fileRequest['requesting_staff_id'])[0];
                                 $own=$override->getNews('file_request','status',1,'file_id',$fileRequest['file_id'])[0];
                                 $stf=$override->get('user','id',$own['staff_id'])[0]?>
                                 <tr>
