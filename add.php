@@ -256,9 +256,10 @@ if($user->isLoggedIn()) {
             ));
             if ($validate->passed()) {
                 try {
+                    if(Input::get('staff_id')){$staff_id = Input::get('staff_id');}else{$staff_id = 0;}
                     foreach (Input::get('file_id') as $fid){
                         if(!$override->get3('file_request','file_id',$fid,'status',0, 'staff_id', $user->data()->id)){
-                            if(Input::get('staff_id') != 0){$staff=Input::get('staff_id');}else{$staff=$user->data()->id;}
+                            if($staff_id != 0){$staff=Input::get('staff_id');}else{$staff=$user->data()->id;}
                             $user->createRecord('file_request', array(
                                 'study_id' => Input::get('study_id'),
                                 'file_id' => $fid,
