@@ -661,7 +661,7 @@ if($user->isLoggedIn()) {
                                         </select>
                                     </div>
                                 </div>
-
+                                <?php if($user->data()->position == 1 || $user->data()->position == 1){?>
                                 <div class="row-form clearfix">
                                     <div class="col-md-3">Staff</div>
                                     <div class="col-md-9">
@@ -673,7 +673,7 @@ if($user->isLoggedIn()) {
                                         </select>
                                     </div>
                                 </div>
-
+                                <?php }?>
                                 <div class="footer tar">
                                     <input type="submit" name="add_request" value="Submit" class="btn btn-default">
                                 </div>
