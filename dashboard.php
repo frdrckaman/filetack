@@ -57,8 +57,18 @@ if($user->isLoggedIn()) {
                         <div class="dSpace">
                             <h3>Studies</h3>
                             <span class="mChartBar" sparkType="bar" sparkBarColor="white"><!--130,190,260,230,290,400,340,360,390--></span>
+                            <a href="info.php?id=4">
                             <span class="number"><?=$override->getNo('study')?></span>
+                            </a>
                         </div>
+
+                                            <!-- 
+                    <li class="">
+                        <a href="info.php?id=4">
+                            <span class="glyphicon glyphicon-list"></span><span class="text">Manage Studies</span>
+                        </a>
+                    </li> -->
+
                     </div>
 
                 </div>
@@ -69,7 +79,9 @@ if($user->isLoggedIn()) {
                         <div class="dSpace">
                             <h3>Files</h3>
                             <span class="mChartBar" sparkType="bar" sparkBarColor="white"><!--5,10,15,20,23,21,25,20,15,10,25,20,10--></span>
+                            <a href="info.php?id=3">
                             <span class="number"><?=$override->getNo('study_files')?></span>
+                            </a>
                         </div>
                     </div>
 
@@ -81,7 +93,9 @@ if($user->isLoggedIn()) {
                         <div class="dSpace">
                             <h3>Circulating Files</h3>
                             <span class="mChartBar" sparkType="bar" sparkBarColor="white"><!--240,234,150,290,310,240,210,400,320,198,250,222,111,240,221,340,250,190--></span>
+                            <a href="info.php?id=6">
                             <span class="number"><?=$override->getCount('study_files','status',1)?></span>
+                            </a>
                         </div>
 
                     </div>

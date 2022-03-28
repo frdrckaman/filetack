@@ -107,6 +107,11 @@ if($user->data()->accessLevel == 1){
                             <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Manage Files</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="info.php?id=7">
+                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">File Logs</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
 
@@ -115,9 +120,24 @@ if($user->data()->accessLevel == 1){
                 <ul>
                     <li>
                         <a href="add.php?id=5">
-                            <span class="glyphicon glyphicon-user"></span><span class="text">Add Position</span>
+                            <span class="glyphicon glyphicon-user"></span><span class="text">Asign File</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="add.php?id=10">
+                            <span class="glyphicon glyphicon-user"></span><span class="text">Add Screning Groups</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="add.php?id=9">
+                            <span class="glyphicon glyphicon-user"></span><span class="text">Add Study Groups</span>
+                        </a>
+                    </li>
+                    <!-- <li>
+                        <a href="add.php?id=5">
+                            <span class="glyphicon glyphicon-user"></span><span class="text">Add Sites</span>
+                        </a>
+                    </li> -->
                     <li>
                         <a href="info.php?id=2">
                             <span class="glyphicon glyphicon-share"></span><span class="text">Manage</span>

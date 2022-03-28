@@ -96,6 +96,26 @@ if($user->isLoggedIn()) {
             ),Input::get('id'));
             $successMessage = 'User Deleted Successful';
         }
+        elseif (Input::get('edit_study_group')){
+            $validate = $validate->check($_POST, array(
+                'name' => array(
+                    'required' => true,
+                ),
+            ));
+            if ($validate->passed()) {
+                try {
+                    $user->updateRecord('study_group', array(
+                        'name' => Input::get('name'),
+                    ),Input::get('id'));
+                    $successMessage = 'Group Successful Updated';
+
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        }
     }
 }else{
     Redirect::to('index.php');
@@ -414,6 +434,137 @@ if($user->isLoggedIn()) {
                             </table>
                         </div>
                     </div>
+
+                    <div class="col-md-6">
+                        <div class="head clearfix">
+                            <div class="isw-grid"></div>
+                            <h1>List Of Study Groups</h1>
+                            <ul class="buttons">
+                                <li><a href="#" class="isw-download"></a></li>
+                                <li><a href="#" class="isw-attachment"></a></li>
+                                <li>
+                                    <a href="#" class="isw-settings"></a>
+                                    <ul class="dd-list">
+                                        <li><a href="#"><span class="isw-plus"></span> New document</a></li>
+                                        <li><a href="#"><span class="isw-edit"></span> Edit</a></li>
+                                        <li><a href="#"><span class="isw-delete"></span> Delete</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="block-fluid">
+                            <table cellpadding="0" cellspacing="0" width="100%" class="table">
+                                <thead>
+                                <tr>
+                                    <th width="25%">Name</th>
+                                    <th width="5%">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($override->getData('study_group') as $doc){?>
+                                    <tr>
+                                        <td><?=$doc['name']?></td>
+                                        <td><a href="#region<?=$doc['id']?>" role="button" class="btn btn-info" data-toggle="modal">Edit</a></td>
+                                        <!-- EOF Bootrstrap modal form -->
+                                    </tr>
+                                    <div class="modal fade" id="region<?=$doc['id']?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <form method="post">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                        <h4>Edit Info</h4>
+                                                    </div>
+                                                    <div class="modal-body modal-body-np">
+                                                        <div class="row">
+                                                            <div class="block-fluid">
+                                                                <div class="row-form clearfix">
+                                                                    <div class="col-md-3">Name:</div>
+                                                                    <div class="col-md-9"><input type="text" name="name" value="<?=$doc['name']?>" required/></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="dr"><span></span></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="submit" name="edit_study_group" class="btn btn-warning" data-dismiss="modal" aria-hidden="true" value="Save updates">
+                                                        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                <?php }?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="head clearfix">
+                            <div class="isw-grid"></div>
+                            <h1>List Of Screening Groups</h1>
+                            <ul class="buttons">
+                                <li><a href="#" class="isw-download"></a></li>
+                                <li><a href="#" class="isw-attachment"></a></li>
+                                <li>
+                                    <a href="#" class="isw-settings"></a>
+                                    <ul class="dd-list">
+                                        <li><a href="#"><span class="isw-plus"></span> New document</a></li>
+                                        <li><a href="#"><span class="isw-edit"></span> Edit</a></li>
+                                        <li><a href="#"><span class="isw-delete"></span> Delete</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="block-fluid">
+                            <table cellpadding="0" cellspacing="0" width="100%" class="table">
+                                <thead>
+                                <tr>
+                                    <th width="25%">Name</th>
+                                    <th width="5%">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($override->getData('screening_group') as $doc){?>
+                                    <tr>
+                                        <td><?=$doc['name']?></td>
+                                        <td><a href="#region<?=$doc['id']?>" role="button" class="btn btn-info" data-toggle="modal">Edit</a></td>
+                                        <!-- EOF Bootrstrap modal form -->
+                                    </tr>
+                                    <div class="modal fade" id="region<?=$doc['id']?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <form method="post">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                        <h4>Edit Info</h4>
+                                                    </div>
+                                                    <div class="modal-body modal-body-np">
+                                                        <div class="row">
+                                                            <div class="block-fluid">
+                                                                <div class="row-form clearfix">
+                                                                    <div class="col-md-3">Name:</div>
+                                                                    <div class="col-md-9"><input type="text" name="name" value="<?=$doc['name']?>" required/></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="dr"><span></span></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="submit" name="edit_study_group" class="btn btn-warning" data-dismiss="modal" aria-hidden="true" value="Save updates">
+                                                        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                <?php }?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                 <?php } elseif ($_GET['id'] == 3){?>
                     <div class="col-md-12">
                         <div class="head clearfix">
@@ -688,7 +839,288 @@ if($user->isLoggedIn()) {
                                     <tr>
                                         <td> <?=$staff['firstname'].''.$staff['lastname']?></td>
                                         <td><?=$study['name']?></td>
-                                        <td><?=$user->dateDiff($files['approved_on'],$files['return_on'])?></td>
+                                        <td>
+                                        <?php if($files['approved_on'] == ''){?>
+                                                <?=$user->dateDiff($files['create_on'], date('Y-m-d H:i:s'))?>
+                                            <?php }elseif($files['return_on'] == ''){?>
+                                                <?=$user->dateDiff($files['approved_on'], date('Y-m-d H:i:s'))?>
+                                            <?php }else{?>
+                                                <?=$user->dateDiff($files['approved_on'],$files['return_on'])?>
+                                            <?php }?>
+                                        </td>
+                                        <td><?=$files['create_on']?></td>
+                                        <td><?=$files['approved_on']?></td>
+                                        <td><?=$approve['firstname'].' '.$approve['lastname']?></td>
+                                        <td><?=$files['return_on']?></td>
+                                        <td><?=$return['firstname'].' '.$return['lastname']?></td>
+                                        <td><?=$receive['firstname'].' '.$receive['lastname']?></td>
+
+                                    </tr>
+                                    <div class="modal fade" id="user<?=$files['id']?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <form method="post">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                        <h4>Edit File Info</h4>
+                                                    </div>
+                                                    <div class="modal-body modal-body-np">
+                                                        <div class="row">
+                                                            <div class="block-fluid">
+                                                                <div class="row-form clearfix">
+                                                                    <div class="col-md-3">Name:</div>
+                                                                    <div class="col-md-9">
+                                                                        <input value="<?=$files['name']?>" class="validate[required]" type="text" name="name" id="name"/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row-form clearfix">
+                                                                    <div class="col-md-3">Study</div>
+                                                                    <div class="col-md-9">
+                                                                        <select name="study" style="width: 100%;" required>
+                                                                            <option value="<?=$files['study_id']?>"><?=$study['name']?></option>
+                                                                            <?php foreach ($override->getData('study') as $study){?>
+                                                                                <option value="<?=$study['id']?>"><?=$study['name']?></option>
+                                                                            <?php }?>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row-form clearfix">
+                                                                    <div class="col-md-3">Description:</div>
+                                                                    <div class="col-md-9"><textarea name="details" rows="4" ><?=$files['details']?></textarea></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="dr"><span></span></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" name="id" value="<?=$files['id']?>">
+                                                        <input type="submit" name="edit_file" value="Save updates" class="btn btn-warning">
+                                                        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="modal fade" id="delete<?=$files['id']?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <form method="post">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                        <h4>Delete User</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <strong style="font-weight: bold;color: red"><p>Are you sure you want to delete this file</p></strong>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" name="id" value="<?=$files['id']?>">
+                                                        <input type="submit" name="delete_file" value="Delete" class="btn btn-danger">
+                                                        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                <?php }?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                <?php }elseif ($_GET['id'] == 6){?>
+                    <div class="col-md-12">
+                        <div class="head clearfix">
+                            <div class="isw-grid"></div>
+                            <h1>Circulating Files</h1>
+                            <ul class="buttons">
+                                <li><a href="#" class="isw-download"></a></li>
+                                <li><a href="#" class="isw-attachment"></a></li>
+                                <li>
+                                    <a href="#" class="isw-settings"></a>
+                                    <ul class="dd-list">
+                                        <li><a href="#"><span class="isw-plus"></span> New document</a></li>
+                                        <li><a href="#"><span class="isw-edit"></span> Edit</a></li>
+                                        <li><a href="#"><span class="isw-delete"></span> Delete</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="block-fluid">
+                            <table cellpadding="0" cellspacing="0" width="100%" class="table">
+                                <thead>                             
+                                <tr>
+                                    <th width="10%">STUDY</th>
+                                    <th width="10%">File ID</th>
+                                    <th width="10%">Requested Staff</th>
+                                    <th width="10%">No Days</th>
+                                    <th width="10%">Request Date</th>
+                                    <th width="10%">Approved Date</th>
+                                    <th width="10%">Approved Staff</th>
+                                    <th width="10%">Returned Date</th>
+                                    <th width="10%">Returned Staff</th>
+                                    <th width="10%">Received Staff</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($override->getData2('file_request','status',2) as $files){
+                                    $file=$override->get('study_files','id',$files['file_id'])[0];
+                                    $study=$override->get('study','id',$files['study_id'])[0];
+                                    $staff=$override->get('user','id',$files['staff_id'])[0];
+                                    $approve=$override->get('user','id',$files['approve_staff'])[0];
+                                    $return=$override->get('user','id',$files['return_staff'])[0];
+                                    $receive=$override->get('user','id',$files['received_staff'])[0];?>
+                               
+                                    <tr>
+                                        <td><?=$study['name']?></td>            
+                                        <td> <?=$file['name']; ?></td>
+                                        <td> <?=$staff['firstname'].''.$staff['lastname']?></td>
+                                        <td>
+                                            <?php if($files['approved_on'] == ''){?>
+                                                <?=$user->dateDiff($files['create_on'], date('Y-m-d H:i:s'))?>
+                                            <?php }elseif($files['return_on'] == ''){?>
+                                                <?=$user->dateDiff($files['approved_on'], date('Y-m-d H:i:s'))?>
+                                            <?php }else{?>
+                                                <?=$user->dateDiff($files['approved_on'],$files['return_on'])?>
+                                            <?php }?>
+                                        </td>
+                                        <td><?=$files['create_on']?></td>
+                                        <td><?=$files['approved_on']?></td>
+                                        <td><?=$approve['firstname'].' '.$approve['lastname']?></td>
+                                        <td><?=$files['return_on']?></td>
+                                        <td><?=$return['firstname'].' '.$return['lastname']?></td>
+                                        <td><?=$receive['firstname'].' '.$receive['lastname']?></td>
+
+                                    </tr>
+                                    <div class="modal fade" id="user<?=$files['id']?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <form method="post">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                        <h4>Edit File Info</h4>
+                                                    </div>
+                                                    <div class="modal-body modal-body-np">
+                                                        <div class="row">
+                                                            <div class="block-fluid">
+                                                                <div class="row-form clearfix">
+                                                                    <div class="col-md-3">Name:</div>
+                                                                    <div class="col-md-9">
+                                                                        <input value="<?=$files['name']?>" class="validate[required]" type="text" name="name" id="name"/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row-form clearfix">
+                                                                    <div class="col-md-3">Study</div>
+                                                                    <div class="col-md-9">
+                                                                        <select name="study" style="width: 100%;" required>
+                                                                            <option value="<?=$files['study_id']?>"><?=$study['name']?></option>
+                                                                            <?php foreach ($override->getData('study') as $study){?>
+                                                                                <option value="<?=$study['id']?>"><?=$study['name']?></option>
+                                                                            <?php }?>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row-form clearfix">
+                                                                    <div class="col-md-3">Description:</div>
+                                                                    <div class="col-md-9"><textarea name="details" rows="4" ><?=$files['details']?></textarea></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="dr"><span></span></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" name="id" value="<?=$files['id']?>">
+                                                        <input type="submit" name="edit_file" value="Save updates" class="btn btn-warning">
+                                                        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="modal fade" id="delete<?=$files['id']?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <form method="post">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                        <h4>Delete User</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <strong style="font-weight: bold;color: red"><p>Are you sure you want to delete this file</p></strong>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" name="id" value="<?=$files['id']?>">
+                                                        <input type="submit" name="delete_file" value="Delete" class="btn btn-danger">
+                                                        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                <?php }?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                <?php }elseif ($_GET['id'] == 7){?>
+                    <div class="col-md-12">
+                        <div class="head clearfix">
+                            <div class="isw-grid"></div>
+                            <h1>Files History</h1>
+                            <ul class="buttons">
+                                <li><a href="#" class="isw-download"></a></li>
+                                <li><a href="#" class="isw-attachment"></a></li>
+                                <li>
+                                    <a href="#" class="isw-settings"></a>
+                                    <ul class="dd-list">
+                                        <li><a href="#"><span class="isw-plus"></span> New document</a></li>
+                                        <li><a href="#"><span class="isw-edit"></span> Edit</a></li>
+                                        <li><a href="#"><span class="isw-delete"></span> Delete</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="block-fluid">
+                            <table cellpadding="0" cellspacing="0" width="100%" class="table">
+                                <thead>
+                                <tr>
+                                    <th width="10%">STUDY</th>
+                                    <th width="10%">File ID</th>
+                                    <th width="10%">Requested Staff</th>
+                                    <th width="10%">No Days</th>
+                                    <th width="10%">Request Date</th>
+                                    <th width="10%">Approved Date</th>
+                                    <th width="10%">Approved Staff</th>
+                                    <th width="10%">Returned Date</th>
+                                    <th width="10%">Returned Staff</th>
+                                    <th width="10%">Received Staff</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($override->getData('file_request') as $files){
+                                    $file=$override->get('study_files','id',$files['file_id'])[0];
+                                    $study=$override->get('study','id',$files['study_id'])[0];
+                                    $staff=$override->get('user','id',$files['staff_id'])[0];
+                                    $approve=$override->get('user','id',$files['approve_staff'])[0];
+                                    $return=$override->get('user','id',$files['return_staff'])[0];
+                                    $receive=$override->get('user','id',$files['received_staff'])[0];?>
+                               
+                                    <tr>
+                                        <td><?=$study['name']?></td>            
+                                        <td> <?=$file['name']; ?></td>
+                                        <td> <?=$staff['firstname'].''.$staff['lastname']?></td>
+                                        <td>
+                                            <?php if($files['approved_on'] == ''){?>
+                                                <?=$user->dateDiff($files['create_on'], date('Y-m-d H:i:s'))?>
+                                            <?php }elseif($files['return_on'] == ''){?>
+                                                <?=$user->dateDiff($files['approved_on'], date('Y-m-d H:i:s'))?>
+                                            <?php }else{?>
+                                                <?=$user->dateDiff($files['approved_on'],$files['return_on'])?>
+                                            <?php }?>
+                                        </td>
                                         <td><?=$files['create_on']?></td>
                                         <td><?=$files['approved_on']?></td>
                                         <td><?=$approve['firstname'].' '.$approve['lastname']?></td>
