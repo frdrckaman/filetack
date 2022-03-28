@@ -103,6 +103,9 @@ if ($user->isLoggedIn()) {
                 'coordinator' => array(
                     'required' => true,
                 ),
+                'doctor' => array(
+                    'required' => true,
+                ),
                 'start_date' => array(
                     'required' => true,
                 ),
@@ -116,6 +119,7 @@ if ($user->isLoggedIn()) {
                         'name' => Input::get('name'),
                         'pi_id' => Input::get('pi'),
                         'co_id' => Input::get('coordinator'),
+                        'do_id' => Input::get('docotr'),
                         'start_date' => Input::get('start_date'),
                         'end_date' => Input::get('end_date'),
                         'details' => Input::get('details'),
@@ -513,6 +517,19 @@ if ($user->isLoggedIn()) {
                                             </select>
                                         </div>
                                     </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Doctor</div>
+                                        <div class="col-md-9">
+                                            <select name="doctor" style="width: 100%;" required>
+                                                <option value="">Select staff</option>
+                                                <?php foreach ($override->getData('user') as $staff) { ?>
+                                                    <option value="<?= $staff['id'] ?>"><?= $staff['firstname'] . ' ' . $staff['lastname'] ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Start Date:</div>
                                         <div class="col-md-9"><input type="text" name="start_date" id="mask_date" required /> <span>Example: 04/10/2012</span></div>
