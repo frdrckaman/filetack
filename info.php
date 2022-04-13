@@ -966,7 +966,7 @@ if($user->isLoggedIn()) {
                                 <?php foreach ($override->getData2('file_request','status',2) as $files){
                                     $file=$override->get('study_files','id',$files['file_id'])[0];
                                     $study=$override->get('study','id',$files['study_id'])[0];
-                                    $staff=$override->get('user','id',$files['staff_id'])[0];
+                                    $staff=$override->get('user','id',$files['requesting_staff_id'])[0];
                                     $approve=$override->get('user','id',$files['approve_staff'])[0];
                                     $return=$override->get('user','id',$files['return_staff'])[0];
                                     $receive=$override->get('user','id',$files['received_staff'])[0];?>
@@ -1103,7 +1103,9 @@ if($user->isLoggedIn()) {
                                 <?php foreach ($override->getData('file_request') as $files){
                                     $file=$override->get('study_files','id',$files['file_id'])[0];
                                     $study=$override->get('study','id',$files['study_id'])[0];
-                                    $staff=$override->get('user','id',$files['staff_id'])[0];
+                                    // $staff=$override->get('user','id',$fileRequest['requesting_staff_id'])[0];
+                                    $staff=$override->get('user','id',$files['requesting_staff_id'])[0];
+                                    // $staff=$override->get('user','id',$files['staff_id'])[0];
                                     $approve=$override->get('user','id',$files['approve_staff'])[0];
                                     $return=$override->get('user','id',$files['return_staff'])[0];
                                     $receive=$override->get('user','id',$files['received_staff'])[0];?>
