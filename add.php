@@ -119,7 +119,7 @@ if ($user->isLoggedIn()) {
                         'name' => Input::get('name'),
                         'pi_id' => Input::get('pi'),
                         'co_id' => Input::get('coordinator'),
-                        'do_id' => Input::get('docotr'),
+                        'do_id' => Input::get('doctor'),
                         'start_date' => Input::get('start_date'),
                         'end_date' => Input::get('end_date'),
                         'details' => Input::get('details'),
