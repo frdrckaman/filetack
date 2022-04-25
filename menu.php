@@ -82,32 +82,44 @@ if ($user->data()->accessLevel == 1) {
             </li>
 
             <li class="openable">
-                <a href="#"><span class="isw-bookmark"></span><span class="text">Files</span></a>
+                <a href="#"><span class="isw-bookmark"></span><span class="text">Request and Return</span></a>
                 <ul>
                     <li>
                         <a href="add.php?id=4">
-                            <span class="glyphicon glyphicon-plus"></span><span class="text">Add Study File</span>
+                            <span class="glyphicon glyphicon-plus"></span><span class="text">Add Type</span>
                         </a>
                     </li>
                     <li>
                         <a href="add.php?id=8">
-                            <span class="glyphicon glyphicon-plus"></span><span class="text">Request File</span>
+                            <span class="glyphicon glyphicon-plus"></span><span class="text">Request</span>
+                        </a>
+                    </li>
+
+                    <!-- <li>
+                        <a href="add.php?id=12">
+                            <span class="glyphicon glyphicon-plus"></span><span class="text">Add Sensitization File</span>
                         </a>
                     </li>
 
                     <li>
+                        <a href="add.php?id=11">
+                            <span class="glyphicon glyphicon-plus"></span><span class="text">Request Sensitization File</span>
+                        </a>
+                    </li> -->
+
+                    <li>
                         <a href="add.php?id=6">
-                            <span class="glyphicon glyphicon-user"></span><span class="text">Return Files</span>
+                            <span class="glyphicon glyphicon-user"></span><span class="text">Return</span>
                         </a>
                     </li>
                     <li>
                         <a href="info.php?id=3">
-                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Manage Files</span>
+                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Manage</span>
                         </a>
                     </li>
                     <li>
                         <a href="info.php?id=7">
-                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">File Logs</span>
+                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Logs</span>
                         </a>
                     </li>
                 </ul>
@@ -121,11 +133,11 @@ if ($user->data()->accessLevel == 1) {
                             <span class="glyphicon glyphicon-user"></span><span class="text">Add Position</span>
                         </a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href="add.php?id=5">
                             <span class="glyphicon glyphicon-user"></span><span class="text">Asign File</span>
                         </a>
-                    </li>
+                    </li> -->
                     <li>
                         <a href="add.php?id=10">
                             <span class="glyphicon glyphicon-user"></span><span class="text">Add Screning Groups</span>

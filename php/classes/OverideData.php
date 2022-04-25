@@ -57,16 +57,31 @@ class OverideData{
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+
     public function getSumD1($table,$variable, $field, $value){
         $query = $this->_pdo->query("SELECT SUM($variable) FROM $table WHERE $field = '$value' ");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+
     public function get($table,$where,$id){
         $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id'");
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+
+    public function getRQ1($table){
+        $query = $this->_pdo->query("SELECT * FROM $table");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function get_new($table,$where,$id,$where1,$type){
+        $query = $this->_pdo->query("SELECT * FROM $table WHERE $where = '$id' AND $where1 = '$type'");
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
     public function delete($table,$field,$value){
         return $this->_pdo->query("DELETE FROM $table WHERE $field = $value");
     }

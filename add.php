@@ -142,6 +142,9 @@ if ($user->isLoggedIn()) {
                 'study' => array(
                     'required' => true,
                 ),
+                'type' => array(
+                    'required' => true,
+                )
             ));
             if ($validate->passed()) {
                 try {
@@ -154,8 +157,29 @@ if ($user->isLoggedIn()) {
                         'created_date' => date('Y-m-d'),
                         'status' => 0,
                         'staff_id' => $user->data()->id,
+                        'type' => Input::get('type')
                     ));
                     $successMessage = 'Study Files Successful Added';
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        } elseif (Input::get('add_sensitization_file')) {
+            $validate = $validate->check($_POST, array(
+                'sensitization_name' => array(
+                    'required' => true,
+                )
+            ));
+            if ($validate->passed()) {
+                try {
+                    $user->createRecord('sensitization_files', array(
+                        'name' => Input::get('sensitization_name'),
+                        'status' => 0,
+                        'staff_id' => $user->data()->id,
+                    ));
+                    $successMessage = 'Sensitization Files Successful Added';
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }
@@ -248,6 +272,9 @@ if ($user->isLoggedIn()) {
                 'study_id' => array(
                     'required' => true,
                 ),
+                'type' => array(
+                    'required' => true,
+                )
             ));
             if ($validate->passed()) {
                 try {
@@ -271,10 +298,56 @@ if ($user->isLoggedIn()) {
                                 'approved_on' => '',
                                 'status' => 0,
                                 'requesting_staff_id' => $staff,
-                                'staff_id' => $user->data()->id
+                                'staff_id' => $user->data()->id,
+                                'type' => Input::get('type')
                             ));
 
                             $successMessage = 'Request Sent Successful';
+                        } else {
+                            $errorMessage = 'You have already submitted this request, Please wait for its approval';
+                        }
+                    }
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                $pageError = $validate->errors();
+            }
+        } elseif (Input::get('request_sensitization_files')) {
+            $validate = new validate();
+            $validate = $validate->check($_POST, array(
+                'study_sensitizatin_id' => array(
+                    'required' => true,
+                    // 'unique' => "file_request"
+                )
+            ));
+            if ($validate->passed()) {
+                try {
+                    if (Input::get('staff_id')) {
+                        $staff_id = Input::get('staff_id');
+                    } else {
+                        $staff_id = 0;
+                    }
+                    foreach (Input::get('file_id_sensitization') as $fid) {
+                        if (!$override->get3('file_request', 'file_id', $fid, 'status', 0, 'staff_id', $user->data()->id)) {
+                            if ($staff_id != 0) {
+                                $staff = Input::get('staff_id');
+                            } else {
+                                $staff = $user->data()->id;
+                            }
+                            $user->createRecord('file_request', array(
+                                'study_id' => Input::get('study_sensitizatin_id'),
+                                'file_id' => $fid,
+                                'create_on' => date('Y-m-d H:i:s'),
+                                'return_on' => '',
+                                'approved_on' => '',
+                                'status' => 0,
+                                'requesting_staff_id' => $staff,
+                                'staff_id' => $user->data()->id,
+                                'type' => 2
+                            ));
+
+                            $successMessage = 'Request Sensitization Sent Successful';
                         } else {
                             $errorMessage = 'You have already submitted this request, Please wait for its approval';
                         }
@@ -317,7 +390,7 @@ if ($user->isLoggedIn()) {
             } else {
                 $pageError = $validate->errors();
             }
-        }elseif (Input::get('add_screening_group')) {
+        } elseif (Input::get('add_screening_group')) {
             $validate = new validate();
             $validate = $validate->check($_POST, array(
                 'group_id' => array(
@@ -557,10 +630,23 @@ if ($user->isLoggedIn()) {
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
-                                <h1>Add File</h1>
+                                <h1>Add </h1>
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Type</div>
+                                        <div class="col-md-9">
+                                            <select name="type" style="width: 100%;" required>
+                                                <option value="">Choose Type</option>
+                                                <?php foreach ($override->getData('doc_cat') as $study) { ?>
+                                                    <option value="<?= $study['id'] ?>"><?= $study['name'] ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Name:</div>
                                         <div class="col-md-9">
@@ -573,6 +659,7 @@ if ($user->isLoggedIn()) {
                                         <div class="col-md-9">
                                             <select name="study" style="width: 100%;" required>
                                                 <option value="">Select Study</option>
+                                                <option value="99">N/A</option>
                                                 <?php foreach ($override->getData('study') as $study) { ?>
                                                     <option value="<?= $study['id'] ?>"><?= $study['name'] ?></option>
                                                 <?php } ?>
@@ -583,7 +670,7 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Screening Group</div>
                                         <div class="col-md-9">
-                                            <select name="screeing_group" style="width: 100%;" >
+                                            <select name="screeing_group" style="width: 100%;">
                                                 <option value="">Select Group</option>
                                                 <?php foreach ($override->getData('screening_group') as $study) { ?>
                                                     <option value="<?= $study['id'] ?>"><?= $study['name'] ?></option>
@@ -595,7 +682,7 @@ if ($user->isLoggedIn()) {
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Study Group</div>
                                         <div class="col-md-9">
-                                            <select name="study_group" style="width: 100%;" >
+                                            <select name="study_group" style="width: 100%;">
                                                 <option value="">Select Group</option>
                                                 <?php foreach ($override->getData('study_group') as $study) { ?>
                                                     <option value="<?= $study['id'] ?>"><?= $study['name'] ?></option>
@@ -622,7 +709,7 @@ if ($user->isLoggedIn()) {
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
-                                <h1>Assign File</h1>
+                                <h1>Assign </h1>
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -669,7 +756,7 @@ if ($user->isLoggedIn()) {
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
-                                <h1>Return File</h1>
+                                <h1>Return </h1>
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
@@ -709,16 +796,18 @@ if ($user->isLoggedIn()) {
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
-                                <h1>Add File</h1>
+                                <h1>Add </h1>
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
+
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">File Name: </div>
                                         <div class="col-md-9">
                                             <input value="" class="validate[required]" type="text" name="file_id" id="file_id" required />
                                         </div>
                                     </div>
+
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Study</div>
                                         <div class="col-md-9">
@@ -744,10 +833,23 @@ if ($user->isLoggedIn()) {
                         <div class="col-md-offset-1 col-md-8">
                             <div class="head clearfix">
                                 <div class="isw-ok"></div>
-                                <h1>Request File</h1>
+                                <h1>Request </h1>
                             </div>
                             <div class="block-fluid">
                                 <form id="validation" method="post">
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Type</div>
+                                        <div class="col-md-9">
+                                            <select name="type" id="type" style="width: 100%;" required>
+                                                <option value="">Choose Type</option>
+                                                <?php foreach ($override->getData('doc_cat') as $study) { ?>
+                                                    <option value="<?= $study['id'] ?>"><?= $study['name'] ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">Study</div>
                                         <div class="col-md-9">
@@ -759,6 +861,7 @@ if ($user->isLoggedIn()) {
                                             </select>
                                         </div>
                                     </div>
+
                                     <span><img src="img/loaders/loader.gif" id="fl_wait" title="loader.gif" /></span>
                                     <div class="row-form clearfix">
                                         <div class="col-md-3">File ID</div>
@@ -872,6 +975,80 @@ if ($user->isLoggedIn()) {
                             </div>
 
                         </div>
+
+                    <?php } elseif ($_GET['id'] == 11) { ?>
+                        <div class="col-md-offset-1 col-md-8">
+                            <div class="head clearfix">
+                                <div class="isw-ok"></div>
+                                <h1>Request Sensitization File</h1>
+                            </div>
+                            <div class="block-fluid">
+                                <form id="validation" method="post">
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Study</div>
+                                        <div class="col-md-9">
+                                            <select name="study_sensitizatin_id" id="study_sensitizatin_id" style="width: 100%;" required>
+                                                <option value="">Select Study</option>
+                                                <?php foreach ($override->getData('study') as $study) { ?>
+                                                    <option value="<?= $study['id'] ?>"><?= $study['name'] ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <span><img src="img/loaders/loader.gif" id="fl_wait" title="loader.gif" /></span>
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">File ID</div>
+                                        <div class="col-md-9">
+                                            <select name="file_id_sensitization[]" id="s_file_id_senstzn" style="width: 100%;" multiple="multiple" required>
+                                                <option value="">Select Sensitization File</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <?php if ($user->data()->position == 1 || $user->data()->position == 1) { ?>
+                                        <div class="row-form clearfix">
+                                            <div class="col-md-3">Staff</div>
+                                            <div class="col-md-9">
+                                                <select name="staff_id" style="width: 100%;" required>
+                                                    <option value="0">None</option>
+                                                    <?php foreach ($override->getData('user') as $staff) { ?>
+                                                        <option value="<?= $staff['id'] ?>"><?= $staff['firstname'] . ' ' . $staff['lastname'] ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+                                    <div class="footer tar">
+                                        <input type="submit" name="request_sensitization_files" value="Submit" class="btn btn-default">
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
+
+                    <?php } elseif ($_GET['id'] == 12 && $user->data()->position == 1) { ?>
+                        <div class="col-md-offset-1 col-md-8">
+                            <div class="head clearfix">
+                                <div class="isw-ok"></div>
+                                <h1>Add Sensitization File</h1>
+                            </div>
+                            <div class="block-fluid">
+                                <form id="validation" method="post">
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">Name:</div>
+                                        <div class="col-md-9">
+                                            <input value="" class="validate[required]" type="text" name="sensitization_name" id="sensitization_name" />
+                                        </div>
+                                    </div>
+
+                                    <div class="footer tar">
+                                        <input type="submit" name="add_sensitization_file" value="Submit" class="btn btn-default">
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
                     <?php } ?>
                     <div class="dr"><span></span></div>
                 </div>
@@ -879,6 +1056,8 @@ if ($user->isLoggedIn()) {
             </div>
         </div>
     </div>
+
+
     <script>
         <?php if ($user->data()->pswd == 0) { ?>
             $(window).on('load', function() {
@@ -891,6 +1070,7 @@ if ($user->isLoggedIn()) {
         if (window.history.replaceState) {
             window.history.replaceState(null, null, window.location.href);
         }
+
         $(document).ready(function() {
             $('#fl_wait').hide();
             $('#wait_ds').hide();
@@ -908,7 +1088,6 @@ if ($user->isLoggedIn()) {
                         $('#wait_ds').hide();
                     }
                 });
-
             });
             $('#wait_wd').hide();
             $('#ds_data').change(function() {
@@ -927,6 +1106,7 @@ if ($user->isLoggedIn()) {
                 });
 
             });
+
             $('#a_cc').change(function() {
                 var getUid = $(this).val();
                 $('#wait').show();
@@ -943,22 +1123,49 @@ if ($user->isLoggedIn()) {
                 });
 
             });
+
+
+            // $('#study_id').change(function() {
+            //     var getUid = $(this).val();
+            //     var type = $('#type').val();
+            //     $('#fl_wait').show();
+            //     $.ajax({
+            //         url: "process.php?cnt=study",
+            //         method: "GET",
+            //         data: {
+            //             getUid: getUid,
+            //             type: type
+            //         },
+            //         success: function(data) {
+            //             $('#s2_2').html(data);
+            //             $('#fl_wait').hide();
+            //         }
+            //     });
+
+            // });
+
+
             $('#study_id').change(function() {
                 var getUid = $(this).val();
+                var type = $('#type').val();
                 $('#fl_wait').show();
                 $.ajax({
                     url: "process.php?cnt=study",
                     method: "GET",
                     data: {
-                        getUid: getUid
+                        getUid: getUid,
+                        type: type
                     },
+
                     success: function(data) {
+                        console.log(data);
                         $('#s2_2').html(data);
                         $('#fl_wait').hide();
                     }
                 });
 
             });
+
         });
     </script>
 </body>
