@@ -158,7 +158,7 @@ if ($user->isLoggedIn()) {
                             <div class="isw-grid"></div>
                             <h1>File </h1>
                             <ul class="buttons">
-                                <li><a href="#" class="isw-download"></a></li>
+                                <li><a href="view_pdf.php?pdf=1" class="isw-download"></a></li>
                                 <li><a href="#" class="isw-attachment"></a></li>
                                 <li>
                                     <a href="#" class="isw-settings"></a>
@@ -181,7 +181,9 @@ if ($user->isLoggedIn()) {
                                         <th width="15%">Requested Staff</th>
                                         <th width="15%">File Status</th>
                                         <th width="15%">Request Status</th>
+                                        <?php if($user->data()->power == 1){?>
                                         <th width="25%">Manage</th>
+                                        <?php }?>
                                     </tr>
                                 </thead>
 
@@ -227,9 +229,13 @@ if ($user->isLoggedIn()) {
                                                     <button class="btn btn-sm btn-warning" type="button" disabled>Pending</button>
                                                 <?php } ?>
                                             </td>
+
+                                            <?php if($user->data()->power == 1){?>
                                             <td>
                                                 <a href="#rStatus<?= $file['id'] ?>" class="btn btn-sm btn-default" type="button" data-toggle="modal">Manage</a>
                                             </td>
+                                            <?php } ?>
+                                            
                                         </tr>
                                         <div class="modal fade" id="rStatus<?= $file['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">

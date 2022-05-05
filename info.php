@@ -568,7 +568,7 @@ if ($user->isLoggedIn()) {
                         <div class="col-md-12">
                             <div class="head clearfix">
                                 <div class="isw-grid"></div>
-                                <h1>List of Files</h1>
+                                <h1>List</h1>
                                 <ul class="buttons">
                                     <li><a href="#" class="isw-download"></a></li>
                                     <li><a href="#" class="isw-attachment"></a></li>
@@ -1019,7 +1019,7 @@ if ($user->isLoggedIn()) {
                                                         <div class="modal-content">
                                                             <div class="modal-header">
                                                                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                                                <h4>Edit  Info</h4>
+                                                                <h4>Edit Info</h4>
                                                             </div>
                                                             <div class="modal-body modal-body-np">
                                                                 <div class="row">
@@ -1125,8 +1125,8 @@ if ($user->isLoggedIn()) {
                                     <tbody>
                                         <?php foreach ($override->getData('file_request') as $files) {
                                             $file = $override->get('study_files', 'id', $files['file_id'])[0];
-                                            $file_sensitization = $override->get('sensitization_files', 'id', $files['file_id'])[0];
-                                            $tablet = $override->get('tablet', 'id', $files['file_id'])[0];
+                                            // $file_sensitization = $override->get('sensitization_files', 'id', $files['file_id'])[0];
+                                            // $tablet = $override->get('tablet', 'id', $files['file_id'])[0];
                                             $study = $override->get('study', 'id', $files['study_id'])[0];
                                             // $staff=$override->get('user','id',$fileRequest['requesting_staff_id'])[0];
                                             $staff = $override->get('user', 'id', $files['requesting_staff_id'])[0];
@@ -1138,13 +1138,7 @@ if ($user->isLoggedIn()) {
                                             <tr>
                                                 <td><?= $study['name'] ?></td>
                                                 <td>
-                                                    <?php if ($files['type'] == 1) { ?>
-                                                        <?= $file['name'] ?>
-                                                    <?php } elseif ($files['type'] == 2) { ?>
-                                                        <?= $file['name'] ?>
-                                                    <?php } elseif ($files['type'] == 3) { ?>
-                                                        <?= $file['name'] ?>
-                                                    <?php } ?>
+                                                    <?= $file['name'] ?>
                                                 </td>
                                                 <td> <?= $staff['firstname'] . '' . $staff['lastname'] ?></td>
                                                 <td>

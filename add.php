@@ -299,7 +299,8 @@ if ($user->isLoggedIn()) {
                                 'status' => 0,
                                 'requesting_staff_id' => $staff,
                                 'staff_id' => $user->data()->id,
-                                'type' => Input::get('type')
+                                'type' => Input::get('type'),
+                                'details' => Input::get('details')
                             ));
 
                             $successMessage = 'Request Sent Successful';
@@ -871,6 +872,12 @@ if ($user->isLoggedIn()) {
                                             </select>
                                         </div>
                                     </div>
+
+                                    <div class="row-form clearfix">
+                                        <div class="col-md-3">OPTION COMMENT(PLEASE WRITE ANY RELEVANT REASON IF THE ITEMS WILL BE OUT OUT OF DATA UNIT FOR MORE THAN TWO DAYS):</div>
+                                        <div class="col-md-9"><textarea name="details" rows="4"></textarea></div>
+                                    </div>
+
                                     <?php if ($user->data()->position == 1 || $user->data()->position == 1) { ?>
                                         <div class="row-form clearfix">
                                             <div class="col-md-3">Staff</div>
