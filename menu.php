@@ -1,8 +1,6 @@
 <?php
-if($user->data()->accessLevel == 1){
-
-}else{
-
+if ($user->data()->accessLevel == 1) {
+} else {
 }
 ?>
 <div class="menu">
@@ -10,13 +8,13 @@ if($user->data()->accessLevel == 1){
     <div class="breadLine">
         <div class="arrow"></div>
         <div class="adminControl active">
-            Hi, <?=$user->data()->firstname?>
+            Hi, <?= $user->data()->firstname ?>
         </div>
     </div>
 
     <div class="admin">
         <div class="image">
-            <img src="img/users/blank.png" class="img-thumbnail"/>
+            <img src="img/users/blank.png" class="img-thumbnail" />
         </div>
         <ul class="control">
             <li><span class="glyphicon glyphicon-comment"></span> <a href="#">Messages</a></li>
@@ -24,7 +22,7 @@ if($user->data()->accessLevel == 1){
             <li><span class="glyphicon glyphicon-share-alt"></span> <a href="logout.php">Logout</a></li>
         </ul>
         <div class="info">
-            <span>Welcom back! Your last visit: <?=$user->data()->last_login?></span>
+            <span>Welcom back! Your last visit: <?= $user->data()->last_login ?></span>
         </div>
     </div>
 
@@ -34,7 +32,7 @@ if($user->data()->accessLevel == 1){
                 <span class="isw-grid"></span><span class="text">Dashboard</span>
             </a>
         </li>
-        <?php if($user->data()->accessLevel == 1){?>
+        <?php if ($user->data()->accessLevel == 1) { ?>
             <li class="openable">
                 <a href="#"><span class="isw-user"></span><span class="text">Staff</span></a>
                 <ul>
@@ -84,27 +82,44 @@ if($user->data()->accessLevel == 1){
             </li>
 
             <li class="openable">
-                <a href="#"><span class="isw-bookmark"></span><span class="text">Files</span></a>
+                <a href="#"><span class="isw-bookmark"></span><span class="text">Request and Return</span></a>
                 <ul>
                     <li>
                         <a href="add.php?id=4">
-                            <span class="glyphicon glyphicon-plus"></span><span class="text">Add Study File</span>
+                            <span class="glyphicon glyphicon-plus"></span><span class="text">Add Type</span>
                         </a>
                     </li>
                     <li>
                         <a href="add.php?id=8">
-                            <span class="glyphicon glyphicon-plus"></span><span class="text">Request File</span>
+                            <span class="glyphicon glyphicon-plus"></span><span class="text">Request</span>
+                        </a>
+                    </li>
+
+                    <!-- <li>
+                        <a href="add.php?id=12">
+                            <span class="glyphicon glyphicon-plus"></span><span class="text">Add Sensitization File</span>
                         </a>
                     </li>
 
                     <li>
+                        <a href="add.php?id=11">
+                            <span class="glyphicon glyphicon-plus"></span><span class="text">Request Sensitization File</span>
+                        </a>
+                    </li> -->
+
+                    <li>
                         <a href="add.php?id=6">
-                            <span class="glyphicon glyphicon-user"></span><span class="text">Return Files</span>
+                            <span class="glyphicon glyphicon-user"></span><span class="text">Return</span>
                         </a>
                     </li>
                     <li>
                         <a href="info.php?id=3">
-                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Manage Files</span>
+                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Manage</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="info.php?id=7">
+                            <span class="glyphicon glyphicon-registration-mark"></span><span class="text">Logs</span>
                         </a>
                     </li>
                 </ul>
@@ -114,10 +129,30 @@ if($user->data()->accessLevel == 1){
                 <a href="#"><span class="isw-tag"></span><span class="text">Extra</span></a>
                 <ul>
                     <li>
-                        <a href="add.php?id=5">
+                        <a href="add.php?id=2">
                             <span class="glyphicon glyphicon-user"></span><span class="text">Add Position</span>
                         </a>
                     </li>
+                    <!-- <li>
+                        <a href="add.php?id=5">
+                            <span class="glyphicon glyphicon-user"></span><span class="text">Asign File</span>
+                        </a>
+                    </li> -->
+                    <li>
+                        <a href="add.php?id=10">
+                            <span class="glyphicon glyphicon-user"></span><span class="text">Add Screning Groups</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="add.php?id=9">
+                            <span class="glyphicon glyphicon-user"></span><span class="text">Add Study Groups</span>
+                        </a>
+                    </li>
+                    <!-- <li>
+                        <a href="add.php?id=5">
+                            <span class="glyphicon glyphicon-user"></span><span class="text">Add Sites</span>
+                        </a>
+                    </li> -->
                     <li>
                         <a href="info.php?id=2">
                             <span class="glyphicon glyphicon-share"></span><span class="text">Manage</span>
@@ -125,9 +160,9 @@ if($user->data()->accessLevel == 1){
                     </li>
                 </ul>
             </li>
-        <?php }else {?>
+        <?php } else { ?>
 
-        <?php }?>
+        <?php } ?>
     </ul>
 
     <div class="dr"><span></span></div>
@@ -178,14 +213,14 @@ if($user->data()->accessLevel == 1){
                                 <div class="row-form clearfix">
                                     <div class="col-md-3">Start Date:</div>
                                     <div class="col-md-9">
-                                        <input value="" class="validate[required,custom[date]]" type="text" name="start" id="date"/>
+                                        <input value="" class="validate[required,custom[date]]" type="text" name="start" id="date" />
                                         <span>Example: 2010-12-01</span>
                                     </div>
                                 </div>
                                 <div class="row-form clearfix">
                                     <div class="col-md-3">End Date:</div>
                                     <div class="col-md-9">
-                                        <input value="" class="validate[required,custom[date]]" type="text" name="start" id="date"/>
+                                        <input value="" class="validate[required,custom[date]]" type="text" name="start" id="date" />
                                         <span>Example: 2010-12-01</span>
                                     </div>
                                 </div>
